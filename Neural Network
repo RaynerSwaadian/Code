@@ -1,0 +1,56 @@
+import numpy as np
+#assigns input values
+#input_v = input_value
+input_v = np.array([[0,0], [0,1], [1,1],[1,0]])
+input_v.shape
+input_v
+#assigns output values
+output = np.array([0,1,1,0])
+output = output.reshape(4,1)
+output.shape
+#assigns weights
+weight = np.array([[0,1], [0,2]])
+weight
+#bias
+bias = 0.3
+
+#activation function
+    #sigmoid_function
+def sigmoid_func(x):
+        return 1/(1 + np.exp(-x))
+
+#derivative of sigmoid fucntion
+
+def der(x):
+        return sigmoid_func(x) * (1 - sigmoid_func(x))
+#updates weights
+
+for epochs in range(10000):
+    #input_array
+    input_arr = input_v
+    
+    weighted_sum = np.dot(input_arr, weight) + bias
+    first_output = sigmoid_func(weighted_sum)
+    
+    error = first_output - output
+    total_error = np.square(np.subtract(first_output,output)).mean()
+    print(total_error)
+    
+    #first/second_derivative
+    first_der = error
+    second_der = der(first_output)
+    derivative = first_der * second_der
+    
+    #transposed input
+    t_input = input_v.T
+    final_derivative = np.dot(t_input, derivative)
+    
+    #updates weight within for loop
+    weight = weight - 0.05 * final_derivative
+    
+    #updates bias within for loop
+    for i in derivative:
+        bias = bias -0.05 * i
+        
+print(weight)
+print(bias)
